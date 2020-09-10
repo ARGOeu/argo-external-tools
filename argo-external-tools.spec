@@ -7,7 +7,7 @@ Buildroot: %{_tmppath}/%{name}-buildroot
 Group: Unspecified
 Source0: %{name}-%{version}.tar.gz
 BuildArch: noarch
-Requires: nagios-plugins
+Requires: nagios-plugins-all
 Requires: perl
 
 %description
