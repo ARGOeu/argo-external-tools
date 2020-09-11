@@ -1,3 +1,9 @@
+%if %{isaix}
+	%define _prefix /opt/nagios
+%else
+	%define _libexecdir %{_exec_prefix}/lib/nagios/plugins
+%endif
+
 Name: argo-external-tools
 Summary: External script tools
 Version: 1.0.0
