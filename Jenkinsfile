@@ -1,10 +1,5 @@
 pipeline {
-    agent { 
-        docker { 
-            image 'argo.registry:5000/epel-7-mgo1.14' 
-            args '-u jenkins:jenkins'
-        }
-    }
+    agent any
     options {
         checkoutToSubdirectory('argo-external-tools')
         newContainerPerStage()
@@ -16,14 +11,40 @@ pipeline {
         GIT_COMMIT_DATE=sh(script: "date -d \"\$(cd ${WORKSPACE}/$PROJECT_DIR && git show -s --format=%ci ${GIT_COMMIT_HASH})\" \"+%Y%m%d%H%M%S\"",returnStdout: true).trim()
    }
     stages {
-        stage('Package') {
-            steps {
-                echo 'Building Rpm...'
-                withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'jenkins-rpm-repo', usernameVariable: 'REPOUSER', \
-                                                             keyFileVariable: 'REPOKEY')]) {
-                    sh "/home/jenkins/build-rpm.sh -w ${WORKSPACE} -b ${BRANCH_NAME} -d centos7 -p ${PROJECT_DIR} -s ${REPOKEY}"
+        stage ('Package'){
+            parallel{
+                stage('Package Centos 6') {
+                    agent {
+                        docker {
+                            image 'argo.registry:5000/epel-6-ams'
+                            args '-u jenkins:jenkins'
+                        }
+                    }
+                    steps {
+                        echo 'Building Rpm...'
+                        withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'jenkins-rpm-repo', usernameVariable: 'REPOUSER', \
+                                                                    keyFileVariable: 'REPOKEY')]) {
+                            sh "/home/jenkins/build-rpm.sh -w ${WORKSPACE} -b ${BRANCH_NAME} -d centos6 -p ${PROJECT_DIR} -s ${REPOKEY}"
+                        }
+                        archiveArtifacts artifacts: '**/*.rpm', fingerprint: true
+                    }
                 }
-                archiveArtifacts artifacts: '**/*.rpm', fingerprint: true
+                stage('Package Centos 7') {
+                    agent {
+                        docker {
+                            image 'argo.registry:5000/epel-7-mgo1.14'
+                            args '-u jenkins:jenkins'
+                        }
+                    }
+                    steps {
+                        echo 'Building Rpm...'
+                        withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'jenkins-rpm-repo', usernameVariable: 'REPOUSER', \
+                                                                    keyFileVariable: 'REPOKEY')]) {
+                            sh "/home/jenkins/build-rpm.sh -w ${WORKSPACE} -b ${BRANCH_NAME} -d centos7 -p ${PROJECT_DIR} -s ${REPOKEY}"
+                        }
+                        archiveArtifacts artifacts: '**/*.rpm', fingerprint: true
+                    }
+                }
             }
         }
     }

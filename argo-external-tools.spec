@@ -19,8 +19,6 @@ Currently it includes the following components:
 %setup
 
 %build
-echo %{buildroot}
-echo %{_tmppath}
 
 %install
 install --directory %{buildroot}/%{_libdir}/nagios/plugins
