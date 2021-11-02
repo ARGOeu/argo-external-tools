@@ -1,6 +1,6 @@
 Name: argo-external-tools
 Summary: External script tools
-Version: 1.0.0
+Version: 1.0.1
 Release: 1%{?dist}
 License: AGPLv3
 Buildroot: %{_tmppath}/%{name}-buildroot
@@ -14,6 +14,7 @@ Requires: perl
 This package includes external tools for argo services. 
 Currently it includes the following components:
  - check_mem.pl
+ - check_updates
 
 %prep
 %setup
@@ -23,6 +24,7 @@ Currently it includes the following components:
 %install
 install --directory %{buildroot}/%{_libdir}/nagios/plugins
 install --mode 755 src/check_mem.pl %{buildroot}/%{_libdir}/nagios/plugins/check_mem.pl
+install --mode 755 src/check_updates %{buildroot}/%{_libdir}/nagios/plugins/check_updates
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -34,3 +36,5 @@ install --mode 755 src/check_mem.pl %{buildroot}/%{_libdir}/nagios/plugins/check
 %changelog
 * Wed Sep 09 2020 Kostas Evangelou <kevangel@grnet.gr> 1.0.0
 - Initial version of the package
+* Tue 02 Nov 2021 Lisgaras Anastasios <tasos@grnet.gr> 1.0.1
+- Add `check_updates` probe.
