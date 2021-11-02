@@ -34,7 +34,7 @@ install --mode 755 src/check_updates %{buildroot}/%{_libdir}/nagios/plugins/chec
 %attr(0755,root,root) %{_libdir}/nagios/plugins
 
 %changelog
+* Tue Nov 02 2021 Lisgaras Anastasios <tasos@grnet.gr> 1.0.1
+- Add `check_updates` probe.
 * Wed Sep 09 2020 Kostas Evangelou <kevangel@grnet.gr> 1.0.0
 - Initial version of the package
-* Tue 02 Nov 2021 Lisgaras Anastasios <tasos@grnet.gr> 1.0.1
-- Add `check_updates` probe.
