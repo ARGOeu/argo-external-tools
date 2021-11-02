@@ -14,7 +14,7 @@ Requires: perl
 This package includes external tools for argo services. 
 Currently it includes the following components:
  - check_mem.pl
- - check_updates
+ - check_updates_ARGO
 
 %prep
 %setup
@@ -24,7 +24,7 @@ Currently it includes the following components:
 %install
 install --directory %{buildroot}/%{_libdir}/nagios/plugins
 install --mode 755 src/check_mem.pl %{buildroot}/%{_libdir}/nagios/plugins/check_mem.pl
-install --mode 755 src/check_updates %{buildroot}/%{_libdir}/nagios/plugins/check_updates
+install --mode 755 src/check_updates_ARGO %{buildroot}/%{_libdir}/nagios/plugins/check_updates_ARGO
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -35,6 +35,6 @@ install --mode 755 src/check_updates %{buildroot}/%{_libdir}/nagios/plugins/chec
 
 %changelog
 * Tue Nov 02 2021 Lisgaras Anastasios <tasos@grnet.gr> 1.0.1
-- Add `check_updates` probe.
+- Add `check_updates_ARGO` probe.
 * Wed Sep 09 2020 Kostas Evangelou <kevangel@grnet.gr> 1.0.0
 - Initial version of the package
