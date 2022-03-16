@@ -1,6 +1,6 @@
 Name: argo-external-tools
 Summary: External script tools
-Version: 1.0.1
+Version: 1.0.2
 Release: 1%{?dist}
 License: AGPLv3
 Buildroot: %{_tmppath}/%{name}-buildroot
@@ -15,6 +15,7 @@ This package includes external tools for argo services.
 Currently it includes the following components:
  - check_mem.pl
  - check_updates_ARGO
+ - pmp-check-mongo.py
 
 %prep
 %setup
@@ -25,6 +26,7 @@ Currently it includes the following components:
 install --directory %{buildroot}/%{_libdir}/nagios/plugins
 install --mode 755 src/check_mem.pl %{buildroot}/%{_libdir}/nagios/plugins/check_mem.pl
 install --mode 755 src/check_updates_ARGO %{buildroot}/%{_libdir}/nagios/plugins/check_updates_ARGO
+install --mode 755 src/pmp-check-mongo.py %{buildroot}/%{_libdir}/nagios/plugins/pmp-check-mongo.py
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -34,6 +36,8 @@ install --mode 755 src/check_updates_ARGO %{buildroot}/%{_libdir}/nagios/plugins
 %attr(0755,root,root) %{_libdir}/nagios/plugins
 
 %changelog
+* Tue Mar 16 2022 Lisgaras Anastasios <tasos@grnet.gr> 1.0.2
+- Add `pmp-check-mongo.py` MongoDB probe.
 * Tue Nov 02 2021 Lisgaras Anastasios <tasos@grnet.gr> 1.0.1
 - Add `check_updates_ARGO` probe.
 * Wed Sep 09 2020 Kostas Evangelou <kevangel@grnet.gr> 1.0.0
